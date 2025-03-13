@@ -19,7 +19,8 @@ def sent_detector():
     dominant_emotion = response['dominant_emotion']
 
     # Return a formatted string with the sentiment label and score
-    #0.006274985, 'disgust': 0.0025598293, 'fear': 0.009251528, 'joy': 0.9680386 and 'sadness': 0.049744144. The dominant emotion is joy. 
+    if anger == None:
+        return "Invalid text! Please try again!"
     return "For the given statement, the system response is 'anger': {}, 'disgust': {}, 'fear': {}, 'joy': {}, 'sadness': {}. The dominant emotion is {}.".format(anger, disgust, fear, joy, sadness, dominant_emotion)
 
 @app.route("/")
