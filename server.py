@@ -1,3 +1,10 @@
+"""
+Emotion Detection Page
+
+The purpose of this web page and associated scripts is to analyze input string
+for emotional characteristics.
+
+"""
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
@@ -5,26 +12,32 @@ app = Flask("Emotion Detection")
 
 @app.route("/emotionDetector")
 def sent_detector():
-    # Retrieve the text to analyze from the request arguments
+    """
+    The main function that takes user input on the web page
+    sends it to an API for analysis
+    and returns the outcome or an error message 
+    """
     text_to_analyze = request.args.get('textToAnalyze')
-    # Pass the text to the sentiment_analyzer function and store the response
     response = emotion_detector(text_to_analyze)
-
-    # Extract the label and score from the response
     anger = response['anger']
     disgust = response['disgust']
     fear = response['fear']
     joy = response['joy']
     sadness = response['sadness']
     dominant_emotion = response['dominant_emotion']
-
-    # Return a formatted string with the sentiment label and score
-    if anger == None:
+    if anger is None:
         return "Invalid text! Please try again!"
-    return "For the given statement, the system response is 'anger': {}, 'disgust': {}, 'fear': {}, 'joy': {}, 'sadness': {}. The dominant emotion is {}.".format(anger, disgust, fear, joy, sadness, dominant_emotion)
+    return (
+        f"For the given statement, the system response is 'anger': {anger},"
+        f"'disgust': {disgust}, 'fear': {fear}, 'joy': {joy}, 'sadness': {sadness}."
+        f"The dominant emotion is {dominant_emotion}."
+        )
 
 @app.route("/")
 def render_index_page():
+    """
+    triggers the rendering of the page along with the input form
+    """
     return render_template('index.html')
 
 if __name__ == "__main__":
